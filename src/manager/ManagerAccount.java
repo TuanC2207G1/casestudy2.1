@@ -13,9 +13,6 @@ public class ManagerAccount {
         listUser = new ArrayList<>();
     }
 
-    public ArrayList<Account> getListUser() {
-        return listUser;
-    }
     private static final String USERNAME_REGEX="^[_a-z0-9]{6,}$";
     private static final String PASSWORD_REGEX="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
     public boolean checkUsername(String regex) {
@@ -53,31 +50,27 @@ public class ManagerAccount {
         listUser.add(account);
         return listUser;
     }
-    public int logIn(Scanner scanner){
-        System.out.println("Nhập tài khoản của bạn:");
-        String username=scanner.nextLine();
-        for (Account p:listUser) {
+    public int logIn(Scanner scanner,String username){
             while (checkUsernameInList(username) == false) {
                 System.out.println("Tài khoản không tồn tại trong hệ thống!");
                 System.out.println("Nhập lại tài khoản");
                 username=scanner.nextLine();
             }
-        }
         return indexAccout(username);
     }
-    public boolean checkPasswordToLogIn(Scanner scanner){
+    public boolean checkPasswordToLogIn(Scanner scanner,String username){
+        System.out.println("Nhập mật khẩu của bạn:");
         String password=scanner.nextLine();
-        while (!listUser.get(logIn(scanner)).equals(password)){
+        while (!listUser.get(logIn(scanner,username)).getPassword().equals(password)){
             System.out.println("Mật khẩu của bạn không đúng! Xin hãy thử lại!");
             password=scanner.nextLine();
         }
         return true;
     }
-    public boolean checkAdmin(Scanner scanner){
-        System.out.println("Nhập tài khoản của bạn:");
-        String username=scanner.nextLine();
+    public boolean checkAdmin(Scanner scanner,String username){
         boolean check=false;
         if (username.equals("admin")){
+            System.out.println("Nhâ mật khẩu quản trị!");
             String password=scanner.nextLine();
             while (!password.equals("doanngonqua")){
                 System.out.println("Sai mật khẩu quản lí! Nhập lại");
@@ -97,15 +90,18 @@ public class ManagerAccount {
         }
         return check;
     }
-    private int indexAccout(String username){
+    public int indexAccout(String username){
         int index =-1;
         for(int i=0;i<listUser.size();i++){
-            if(listUser.get(i).equals(username)){
+            if(listUser.get(i).getUsername().equals(username)){
                 index=i;
                 break;
             }
         }
         return index;
+    }
+    public boolean checkEmpty(){
+        return  listUser.isEmpty();
     }
     public  void display(){
         for (Account p: listUser){

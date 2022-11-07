@@ -10,12 +10,13 @@ import java.util.Scanner;
 public class MainMenu {
     ManagerFoodAndDrink managerFoodAndDrink = new ManagerFoodAndDrink();
     ManagerOder managerOder = new ManagerOder();
-    ManagerAccount managerAccount=new ManagerAccount();
+    ManagerAccount managerAccount = new ManagerAccount();
     MenuStaff menuStaff = new MenuStaff();
     MenuGuest menuGuest = new MenuGuest();
 
     public MainMenu() {
     }
+
     public void mainMenu(Scanner scanner) {
         int choice = -1;
         do {
@@ -30,19 +31,32 @@ public class MainMenu {
                     managerAccount.register(scanner);
                     break;
                 case 2:
-                    if (managerAccount.checkAdmin(scanner)){
-                        menuStaff.menuStaff(scanner, this.managerFoodAndDrink, this.managerOder);
-                    }else if(managerAccount.checkPasswordToLogIn(scanner)){
-                        menuGuest.menuGuest(scanner, this.managerFoodAndDrink, this.managerOder);
+                    System.out.println("Nhập tài khoản để đăng nhập:");
+                    String username = scanner.nextLine();
+                    if (managerAccount.checkAdmin(scanner, username)) {
+                        menuStaff.menuStaff(scanner, managerFoodAndDrink, managerOder);
+                    } else if (managerAccount.checkEmpty()) {
+                        System.out.println("Chưa có tài khoản khách hàng nào!");
+                    }
+                    while (managerAccount.indexAccout(username) == -1) {
+                        System.out.println("Tài khoản không tồn tại trong hệ thống!");
+                        System.out.println("Nhập lại tài khoản");
+                        username = scanner.nextLine();
+                        if (managerAccount.checkAdmin(scanner, username)) {
+                            menuStaff.menuStaff(scanner, managerFoodAndDrink, managerOder);
+                        }
+                    }
+                    if (managerAccount.checkPasswordToLogIn(scanner, username)) {
+                        menuGuest.menuGuest(scanner, managerFoodAndDrink, managerOder);
                     }
                     break;
                 case 3:
-                    menuGuest.menuGuest(scanner, this.managerFoodAndDrink, this.managerOder);
+                    menuGuest.menuGuest(scanner, managerFoodAndDrink, managerOder);
 
                     break;
                 case 0:
                     System.exit(0);
             }
-        } while(choice != 0);
+        } while (choice != 0);
     }
 }
