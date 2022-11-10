@@ -1,6 +1,8 @@
 package model;
 
-public class FoodAndDrink {
+import java.io.Serializable;
+
+public class FoodAndDrink implements Serializable {
     private int id;
     private String name;
     private double price;

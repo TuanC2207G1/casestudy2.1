@@ -2,7 +2,7 @@ package model;
 
 import manager.ManagerSelectItems;
 
-public class Oder {
+public class Oder{
     private int numberTable;
     private ManagerSelectItems managerSelectItems;
 
@@ -30,7 +30,11 @@ public class Oder {
         this.managerSelectItems = managerSelectItems;
     }
 
+    @Override
     public String toString() {
-        return "Oder{numberTable=" + this.numberTable + ", managerSelectItems=" + this.managerSelectItems + '}';
+        return "Oder{" +
+                "numberTable=" + numberTable +
+                ", managerSelectItems=" + managerSelectItems +
+                '}';
     }
 }

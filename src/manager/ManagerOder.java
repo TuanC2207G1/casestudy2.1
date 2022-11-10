@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class ManagerOder {
     ArrayList<Oder> oders = new ArrayList();
+    
 
     public ManagerOder() {
     }
@@ -74,11 +75,10 @@ public class ManagerOder {
            if(oders.isEmpty()){
                System.out.println("Chưa có bàn nào gọi món!");
            }else {
-               System.out.println(p);
+               System.out.println("bàn số"+p.getNumberTable()+"\n"+p.getManagerSelectItems().foodAndDrinkOderArrayList);
            }
        }
     }
-
     public void payBillAndRemoveTable(Scanner scanner) {
         System.out.println("Nhập id bàn cần thanh toán:");
         int numberTable = Integer.parseInt(scanner.nextLine());

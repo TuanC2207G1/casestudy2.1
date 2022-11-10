@@ -1,7 +1,10 @@
 package manager;
 import model.Account;
+import model.FoodAndDrink;
 
-import java.sql.SQLOutput;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,37 +17,27 @@ public class ManagerAccount {
     }
 
     private static final String USERNAME_REGEX="^[_a-z0-9]{6,}$";
-    private static final String PASSWORD_REGEX="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
     public boolean checkUsername(String regex) {
         Pattern pattern = Pattern.compile(USERNAME_REGEX);
-        Matcher matcher = pattern.matcher(regex);
-        return matcher.matches();
-    }
-    public boolean checkPassword(String regex) {
-        Pattern pattern = Pattern.compile(PASSWORD_REGEX);
         Matcher matcher = pattern.matcher(regex);
         return matcher.matches();
     }
     public ArrayList<Account> register(Scanner scanner){
         System.out.println("Nhập tên đăng nhập (chỉ chưa kí tự viết thường , tối thiếu 6 kí tự và số từ 0 đến 9):");
         String username=scanner.nextLine();
-        for (Account p: listUser){
-            if(p.getUsername().equals(username)){
-                System.out.println("Tài khoản đã tồn tại!");
-                System.out.println("Nhập lại:");
-                username=scanner.nextLine();
+            for (Account p: listUser){
+                if(p.getUsername().equals(username)){
+                    System.out.println("Tài khoản đã tồn tại!");
+                    System.out.println("Nhập lại:");
+                    username=scanner.nextLine();
+                }
             }
-        }
         while (checkUsername(username)==false){
             System.out.println("Nhập lại tài khoản theo đúng định dạng!");
             username=scanner.nextLine();
         }
-        System.out.println("Nhập mật khẩu(chứa các kí tự a-z, 0-9,A-Z, !@#&()–){},từ 8 đến 20 kí tự):");
+        System.out.println("Nhập mật khẩu của bạn:");
         String password=scanner.nextLine();
-        while (checkPassword(password)){
-            System.out.println("Nhập lại mật khẩu theo đúng định dạng!");
-            password=scanner.nextLine();
-        }
             String role="User";
         Account account=new Account(username,password,role);
         listUser.add(account);
@@ -70,7 +63,7 @@ public class ManagerAccount {
     public boolean checkAdmin(Scanner scanner,String username){
         boolean check=false;
         if (username.equals("admin")){
-            System.out.println("Nhâ mật khẩu quản trị!");
+            System.out.println("Nhập mật khẩu quản trị!");
             String password=scanner.nextLine();
             while (!password.equals("doanngonqua")){
                 System.out.println("Sai mật khẩu quản lí! Nhập lại");
